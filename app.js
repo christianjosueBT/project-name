@@ -19,7 +19,12 @@ let allCoffeeShops = [];
 
 // connecting to mongoose
 mongoose
-  .connect('mongodb://localhost:27017/practice')
+  .connect('mongodb://localhost:27017/practice', {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  })
   .catch(error => console.log(error));
 
 // auth0 configuration settings
@@ -58,12 +63,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// declare module 'express-session' {
-//   export interface SessionData {
-//     user: { [key: string]: any };
-//   }
-// }
-
 // Use this middleware function to require being logged in
 const requireLogin = (req, res, next) => {
   if (!req.session.user) return res.redirect('/login');
@@ -93,8 +92,9 @@ app.get('/coffeeShops', cache(300), async (req, res) => {
   if (Object.keys(req.query).length !== 0) {
     // if there is a search query, filter coffeeshops by that search
     if (req.query.search) {
+      search = req.query.search;
       coffeeShops = coffeeShops.filter(r =>
-        r.name.toLowerCase().includes(req.query.search.toLowerCase())
+        r.name.toLowerCase().includes(search.toLowerCase())
       );
     }
     // if there ISN'T a count query and there are still more than 10 coffeeshops after filtering
