@@ -1,4 +1,6 @@
-// "C:\Program Files\MongoDB\Server\5.0\bin\mongod.exe" --dbpath="c:\data\db"
+// "C:\Program Files\MongoDB\Server\4.4\bin\mongod.exe" --dbpath="c:\data\db"
+// 'C:\Program Files\MongoDB\Server\4.4\bin\mongo.exe';
+
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
@@ -234,7 +236,10 @@ app.post('/coffeeShops/:id/reviews', requireLogin, async (req, res) => {
 });
 
 app.get('/user/:id', async (req, res) => {
-  const userProfile = await User.findById(req.params.id).populate('reviews');
+  const userProfile = await User.findById(req.params.id).populate({
+    path: 'reviews',
+    populate: { path: 'coffeeshop', select: 'images' },
+  });
   res.render('users/user.ejs', { userProfile });
 });
 
