@@ -86,45 +86,45 @@ app.get('/', async (req, res) => {
 });
 
 // index page of coffeeshops (cached)
-app.get('/coffeeShops', cache(300), async (req, res) => {
-  // save all coffeeshops to a variable so they are quickly available (cached)
-  let coffeeShops = [...res.locals.allCoffeeShops];
+// app.get('/coffeeShops', cache(300), async (req, res) => {
+//   // save all coffeeshops to a variable so they are quickly available (cached)
+//   let coffeeShops = [...res.locals.allCoffeeShops];
 
-  // if there is a query this will run
-  if (Object.keys(req.query).length !== 0) {
-    // if there is a search query, filter coffeeshops by that search
-    if (req.query.search) {
-      search = req.query.search;
-      coffeeShops = coffeeShops.filter(r =>
-        r.name.toLowerCase().includes(search.toLowerCase())
-      );
-    }
-    // if there ISN'T a count query and there are still more than 10 coffeeshops after filtering
-    // reduce the size of coffeeshops to 10
-    if (!req.query.count && coffeeShops.length > 10) {
-      coffeeShops.length = 10;
-    }
-    // if there IS a count query and there are more than 10 coffeeshops in our variable
-    // filter the relevant coffeeshops based on the value of count
-    if (req.query.count && coffeeShops.length > 10) {
-      const count = req.query.count * 10;
-      coffeeShops = coffeeShops.slice(count, count + 10);
-      res.send(coffeeShops);
-      return;
-    }
-    res.render('coffeeShops/index.ejs', { coffeeShops });
-    return;
-  }
-  // if there is no query in the url, only show the first 10 coffeeshops
-  else {
-    coffeeShops.length = 10;
-    res.render('coffeeShops/index.ejs', { coffeeShops });
-    return;
-  }
-});
+//   // if there is a query this will run
+//   if (Object.keys(req.query).length !== 0) {
+//     // if there is a search query, filter coffeeshops by that search
+//     if (req.query.search) {
+//       search = req.query.search;
+//       coffeeShops = coffeeShops.filter(r =>
+//         r.name.toLowerCase().includes(search.toLowerCase())
+//       );
+//     }
+//     // if there ISN'T a count query and there are still more than 10 coffeeshops after filtering
+//     // reduce the size of coffeeshops to 10
+//     if (!req.query.count && coffeeShops.length > 10) {
+//       coffeeShops.length = 10;
+//     }
+//     // if there IS a count query and there are more than 10 coffeeshops in our variable
+//     // filter the relevant coffeeshops based on the value of count
+//     if (req.query.count && coffeeShops.length > 10) {
+//       const count = req.query.count * 10;
+//       coffeeShops = coffeeShops.slice(count, count + 10);
+//       res.send(coffeeShops);
+//       return;
+//     }
+//     res.render('coffeeShops/index.ejs', { coffeeShops });
+//     return;
+//   }
+//   // if there is no query in the url, only show the first 10 coffeeshops
+//   else {
+//     coffeeShops.length = 10;
+//     res.render('coffeeShops/index.ejs', { coffeeShops });
+//     return;
+//   }
+// });
 
 // Newer version of coffeeshops page
-app.get('/coffeeShopsV2', cache(300), async (req, res) => {
+app.get('/coffeeShops', cache(300), async (req, res) => {
   // save all coffeeshops to a variable so they are quickly available (cached)
   let coffeeShops = [...res.locals.allCoffeeShops];
 
@@ -149,13 +149,13 @@ app.get('/coffeeShopsV2', cache(300), async (req, res) => {
       res.send(coffeeShops);
       return;
     }
-    res.render('coffeeShops/v2.ejs', { coffeeShops });
+    res.render('coffeeShops/index.ejs', { coffeeShops });
     return;
   }
   // if there is no query in the url, only show the first 10 coffeeshops
   else {
     coffeeShops.length = 10;
-    res.render('coffeeShops/v2.ejs', { coffeeShops });
+    res.render('coffeeShops/index.ejs', { coffeeShops });
     return;
   }
 });
@@ -222,7 +222,7 @@ app.put(
 
 app.delete('/coffeeShops/:id', requireLogin, isAllowed, async (req, res) => {
   const { id } = req.params;
-  const coffeeShop = await CoffeeShop.findByIdAndDelete(id);
+  await CoffeeShop.findByIdAndDelete(id);
   res.redirect('/coffeeShops');
 });
 
@@ -238,7 +238,7 @@ app.post('/coffeeShops/:id/reviews', requireLogin, async (req, res) => {
 app.get('/user/:id', async (req, res) => {
   const userProfile = await User.findById(req.params.id).populate({
     path: 'reviews',
-    populate: { path: 'coffeeshop', select: 'images' },
+    populate: { path: 'coffeeshop', select: 'images name' },
   });
   res.render('users/user.ejs', { userProfile });
 });

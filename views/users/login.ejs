@@ -2,19 +2,20 @@
 <%- include('../partials/navbar', {nav: 'nav'}) %>
 <!-- Login Form -->
 <div class="container container--center">
-    <div class="card card--form">
-        <h2 class="card__title">Login</h2>
-        <div class="card__body">
-            <form action="/login" method="POST">
-                <input type="text" name="username" placeholder="Enter username or password" autofocus required>
-                <input type="password" name="password" placeholder="Enter password" required>
-                <button class="button">Submit</button>
-            </form>
-            <p class="footer">Need an account? <a href="/register">Sign up</a></p>
-        </div>
+  <div class="card card--form">
+    <h2 class="card__title">Login</h2>
+    <div class="card__body">
+      <form action="/login" method="POST">
+        <input type="text" name="username" placeholder="Enter username or password" autofocus required>
+        <input type="password" name="password" placeholder="Enter password" required>
+        <button class="button">Submit</button>
+      </form>
+      <p class="footer">Need an account? <a href="/register">Sign up</a></p>
     </div>
+  </div>
 </div>
 
-<script src="/javascripts/general.js"></script>
+<script src="/javascripts/loaduser.js"></script>
 </body>
+
 </html>

@@ -4,35 +4,35 @@
 
 <!-- Coffee Shop -->
 <div class="container container--100">
-    <div class="card card--showpage carousel">
-        <% for(let i = 0; i < coffeeShop.images.length; i++) { %>
-                <img class="active carousel__image" data-src="<%=coffeeShop.images[i].filename%>" alt="...">
-        <% } %>
-        <svg class="button--svg button--left" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-            <!-- <circle cx="20" cy="20" r="20" fill="#aaa5" stroke="none"/> -->
-            <path d="M 25,10 L 15,20 L 25,30" fill="none" stroke-width="2px"></path>
-        </svg>
-        <svg class="button--svg button--right" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-            <!-- <circle cx="20" cy="20" r="20" fill="#aaa5" stroke="none"/> -->
-            <path d="M 15,10 L 25,20 L 15,30" fill="none" stroke-width="2px"></path>
-        </svg>
-        <div class="card__title">
-            <h3><%=coffeeShop.name%></h3>
-        </div>
+  <div class="card card--showpage carousel">
+    <% for(let i = 0; i < coffeeShop.images.length; i++) { %>
+    <img class="active carousel__image" data-src="<%=coffeeShop.images[i].filename%>" alt="...">
+    <% } %>
+    <svg class="button--svg button--left" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+      <!-- <circle cx="20" cy="20" r="20" fill="#aaa5" stroke="none"/> -->
+      <path d="M 25,10 L 15,20 L 25,30" fill="none" stroke-width="2px"></path>
+    </svg>
+    <svg class="button--svg button--right" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+      <!-- <circle cx="20" cy="20" r="20" fill="#aaa5" stroke="none"/> -->
+      <path d="M 15,10 L 25,20 L 15,30" fill="none" stroke-width="2px"></path>
+    </svg>
+    <div class="card__title">
+      <h3><%=coffeeShop.name%></h3>
     </div>
+  </div>
 </div>
 
 <!-- DESCRIPTION -->
 <div class="container margin-top">
-    <p class="white"><%=coffeeShop.description%></p>
-    <%if(String(currentUser._id) === String(coffeeShop.author._id) && user) {%>
-    <div class="container container--flex">
-        <a class="button" href="/coffeeShops/<%=coffeeShop._id%>/edit">Edit</a>
-        <form action="/coffeeShops/<%=coffeeShop._id%>?_method=DELETE" method="POST">
-            <button class="button button--delete height--100">Delete</button>
-        </form>
-    </div>
-    <%}%>
+  <p class="white"><%=coffeeShop.description%></p>
+  <%if(String(currentUser._id) === String(coffeeShop.author._id) && user) {%>
+  <div class="container container--flex">
+    <a class="button" href="/coffeeShops/<%=coffeeShop._id%>/edit">Edit</a>
+    <form action="/coffeeShops/<%=coffeeShop._id%>?_method=DELETE" method="POST">
+      <button class="button button--delete height--100">Delete</button>
+    </form>
+  </div>
+  <%}%>
 </div>
 
 <!-- REVIEW SECTION -->
@@ -40,106 +40,116 @@
 
     <!-- Slightly different message depending on if there are revies or not -->
     <%if(coffeeShop.reviews.length === 0) {%>
-        <h3>Be the first to review this cafe!</h3>
-    <%} else {%>
-        <h3>Reviews</h3>
-    <%}%> 
+  <h3>Be the first to review this cafe!</h3>
+  <%} else {%>
+  <h3>Reviews</h3>
+  <%}%> 
 
 
     <!-- Slightly different "make a comment" template shown depending on if the user is logged in or not -->
     <%if(!user) {%>
-        <form action="/coffeeShops/<%=coffeeShop._id%>/reviews"  method="POST">
-            <div class="comment">
-                <div class="comment__picture">
-                    <img src="<%=currentUser.profilePicture.url%>" alt="">
-                </div>
-                <div class="comment__main">
-                    <div class="comment__main__body flex flex--column">
-                        <a href="/login"><input class="input" type="text" name="review[body]" placeholder="Leave a review..." required></a>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="line" viewBox="0 0 40 2" preserveAspectRatio="none">
-                            <path d="M0 1 L40 1"></path>
-                            <path d="M0 1 L40 1" class="focus"></path>
-                        </svg>
-                        <input type="hidden" name="review[author]" value="<%=currentUser._id%>">
-                    </div>
-                    <div class="comment__aside hide">
-                        <div class="comment__aside__rating">
-                            <svg class="stars--parent" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com" viewBox="0 0 2500 500" version="1.1">
-                                <rect class="stars stars--inner stars--custom" x="0" y="0" width="1250" height="500" style="mask: url(#mask5)"/>
-                                <rect class="stars stars--outer stars--set" x="0" y="0" width="2500" height="500" fill="url(#pattern2)" style="mask: url(#mask1)"/> 
-                            </svg>
-                            <input type="number" name="review[rating]" min="0" max="5" step="0.01" class="stars--rating label">
-                        </div>
-                        <div class="comment__aside__buttons justify-end">
-                            <button type="button" class="button cancel transparent">Cancel</button>
-                            <button class="button">Submit</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
-    <%} else {%>
-        <form action="/coffeeShops/<%=coffeeShop._id%>/reviews"  method="POST">
-            <div class="comment">
-                <div class="comment__picture">
-                    <img src="<%=currentUser.profilePicture.url%>" alt="">
-                </div>
-                <div class="comment__main">
-                    <div class="comment__main__body flex flex--column">
-                        <input class="input" type="text" name="review[body]" placeholder="Leave a review..." required>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="line" viewBox="0 0 40 2" preserveAspectRatio="none">
-                            <path d="M0 1 L40 1"></path>
-                            <path d="M0 1 L40 1" class="focus"></path>
-                        </svg>
-                        <input type="hidden" name="review[author]" value="<%=user._id%>">
-                    </div>
-                    <div class="comment__aside hide">
-                        <div class="comment__aside__rating">
-                            <svg class="stars--parent" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com" viewBox="0 0 2500 500" version="1.1">
-                                <rect class="stars stars--inner stars--custom" x="0" y="0" width="1250" height="500" style="mask: url(#mask5)"/>
-                                <rect class="stars stars--outer stars--set" x="0" y="0" width="2500" height="500" fill="url(#pattern2)" style="mask: url(#mask1)"/> 
-                            </svg>
-                            <input type="number" name="review[rating]" min="0" max="5" step="0.01" class="stars--rating label">
-                        </div>
-                        <div class="comment__aside__buttons justify-end">
-                            <button type="button" class="button cancel transparent">Cancel</button>
-                            <button class="button">Submit</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
-    <%}%> 
+  <form action="/coffeeShops/<%=coffeeShop._id%>/reviews" method="POST">
+    <div class="comment">
+      <div class="comment__picture">
+        <img src="<%=currentUser.profilePicture.url%>" alt="">
+      </div>
+      <div class="comment__main">
+        <div class="comment__main__body flex flex--column">
+          <a href="/login"><input class="input" type="text" name="review[body]" placeholder="Leave a review..."
+              required></a>
+          <svg xmlns="http://www.w3.org/2000/svg" class="line" viewBox="0 0 40 2" preserveAspectRatio="none">
+            <path d="M0 1 L40 1"></path>
+            <path d="M0 1 L40 1" class="focus"></path>
+          </svg>
+          <input type="hidden" name="review[author]" value="<%=currentUser._id%>">
+        </div>
+        <div class="comment__aside hide">
+          <div class="comment__aside__rating">
+            <svg class="stars--parent" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com"
+              viewBox="0 0 2500 500" version="1.1">
+              <rect class="stars stars--inner stars--custom" x="0" y="0" width="1250" height="500"
+                style="mask: url(#mask5)" />
+              <rect class="stars stars--outer stars--set" x="0" y="0" width="2500" height="500" fill="url(#pattern2)"
+                style="mask: url(#mask1)" />
+            </svg>
+            <input type="number" name="review[rating]" min="0" max="5" step="0.01" class="stars--rating label">
+          </div>
+          <div class="comment__aside__buttons justify-end">
+            <button type="button" class="button cancel transparent">Cancel</button>
+            <button class="button">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <%} else {%>
+  <form action="/coffeeShops/<%=coffeeShop._id%>/reviews" method="POST">
+    <div class="comment">
+      <div class="comment__picture">
+        <img src="<%=currentUser.profilePicture.url%>" alt="">
+      </div>
+      <div class="comment__main">
+        <div class="comment__main__body flex flex--column">
+          <input class="input" type="text" name="review[body]" placeholder="Leave a review..." required>
+          <svg xmlns="http://www.w3.org/2000/svg" class="line" viewBox="0 0 40 2" preserveAspectRatio="none">
+            <path d="M0 1 L40 1"></path>
+            <path d="M0 1 L40 1" class="focus"></path>
+          </svg>
+          <input type="hidden" name="review[author]" value="<%=user._id%>">
+        </div>
+        <div class="comment__aside hide">
+          <div class="comment__aside__rating">
+            <svg class="stars--parent" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com"
+              viewBox="0 0 2500 500" version="1.1">
+              <rect class="stars stars--inner stars--custom" x="0" y="0" width="1250" height="500"
+                style="mask: url(#mask5)" />
+              <rect class="stars stars--outer stars--set" x="0" y="0" width="2500" height="500" fill="url(#pattern2)"
+                style="mask: url(#mask1)" />
+            </svg>
+            <input type="number" name="review[rating]" min="0" max="5" step="0.01" class="stars--rating label">
+          </div>
+          <div class="comment__aside__buttons justify-end">
+            <button type="button" class="button cancel transparent">Cancel</button>
+            <button class="button">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <%}%> 
     
 
     <!-- display all the reviews for this coffeeshop  -->
     <%for(let i = 0; i < coffeeShop.reviews.length; i++) {%>
-        <div class="container--100">
-            <div class="comment">
-                <div class="comment__picture">
-                    <img src="<%=coffeeShop.reviews[i].author.profilePicture.url%>" alt="">
-                </div>
-                <div class="comment__main">
-                    <div class="comment__main__title">
-                        <%=coffeeShop.reviews[i].author.username%>
-                        <!-- SVG STARS -->
-                        <svg class="stars--parent" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com" viewBox="0 0 2500 500" version="1.1">
-                            <rect class="stars stars--outer" x="0" y="0" width="2500" height="500" fill="url(#pattern2)" style="mask: url(#mask1)"/>
-                            <rect class="stars stars--inner" x="0" y="0" width="<%=coffeeShop.reviews[i].starRating%>" height="500" style="mask: url(#mask5)"/>
-                        </svg>
-                    </div>
-                    <div class="comment__main__body">
-                        <%=coffeeShop.reviews[i].body%>
-                    </div>
-                </div>
-            </div>
+  <div class="container--100">
+    <div class="comment">
+      <div class="comment__picture">
+        <img src="<%=coffeeShop.reviews[i].author.profilePicture.url%>" alt="">
+      </div>
+      <div class="comment__main">
+        <div class="comment__main__title">
+          <%=coffeeShop.reviews[i].author.username%>
+          <!-- SVG STARS -->
+          <svg class="stars--parent" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com"
+            viewBox="0 0 2500 500" version="1.1">
+            <rect class="stars stars--outer" x="0" y="0" width="2500" height="500" fill="url(#pattern2)"
+              style="mask: url(#mask1)" />
+            <rect class="stars stars--inner" x="0" y="0" width="<%=coffeeShop.reviews[i].starRating%>" height="500"
+              style="mask: url(#mask5)" />
+          </svg>
         </div>
-    <%}%>
+        <div class="comment__main__body">
+          <%=coffeeShop.reviews[i].body%>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%}%>
 </div>
 
 
 
-<script src="/javascripts/general.js"></script>
+<script src="/javascripts/loaduser.js"></script>
 <script src="/javascripts/showpage.js"></script>
 
 <!-- SVG Definition-->

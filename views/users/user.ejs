@@ -16,11 +16,6 @@
     </div>
   </div>
 
-  <% for(el of userProfile.reviews){ %>
-
-  <div>
-    <%- `${el.coffeeshop.images[0].url}\n` %>
-  </div>
   <!-- <div class="container--100">
     <div class="comment">
       <div class="comment__main">
@@ -40,7 +35,58 @@
     </div>
   </div>
 </div> -->
-  <% } %>
+
+func () {
+  return (
+    <div>
+      {for let i in 1000 {
+        return (<div></div>) 
+      }}
+    </div>
+  )
+}
+
+  <div class="card card--v2">
+    <div class="card__image carousel">
+      <% for(let i = 0; i < userProfile.reviews.length; i++) { %>
+      <% if(i === 0) { %>
+      <a href="/coffeeShops/<%=userProfile.reviews[i].coffeeshop._id%>">
+        <img class="active carousel__image" data-src="<%=userProfile.reviews[i].coffeeshop.images[0].filename%>"
+          alt="...">
+      </a>
+      <% } else { %>
+      <a href="/coffeeShops/<%=userProfile.reviews[i].coffeeshop._id%>">
+        <img class="carousel__image" data-src="<%=userProfile.reviews[i].coffeeshop.images[0].filename%>" alt="...">
+      </a>
+      <% }} %>
+      <div class="card__image__top">
+        <% for(let i = 0; i < userProfile.reviews.length; i++) { %>
+        <% if(i === 0) { %>
+        <h3 class="carousel__top active"><a
+            href="/coffeeShops/<%=userProfile.reviews[i].coffeeshop._id%>"><%=userProfile.reviews[i].coffeeshop.name.split(/\s+/).slice(0,4).join(' ')%></a>
+        </h3>
+        <% } else { %>
+        <h3 class="carousel__top"><a
+            href="/coffeeShops/<%=userProfile.reviews[i].coffeeshop._id%>"><%=userProfile.reviews[i].coffeeshop.name.split(/\s+/).slice(0,4).join(' ')%></a>
+        </h3>
+        <% }} %>
+      </div>
+      <div class="card__image__bottom">
+        <% for(let i = 0; i < userProfile.reviews.length; i++) { %>
+        <% if(i === 0) { %>
+        <p class="carousel__bottom active"><%=userProfile.reviews[i].body.slice(0,50)%>...</p>
+        <% } else { %>
+        <p class="carousel__bottom"><%=userProfile.reviews[i].body.slice(0,50)%>...</p>\
+        <% }} %>
+      </div>
+      <svg class="button--svg button--left hide">
+        <use href="#svg--left"></use>
+      </svg>
+      <svg class="button--svg button--right hide">
+        <use href="#svg--right"></use>
+      </svg>
+    </div>
+  </div>
 
   <!-- SVG Definition-->
   <svg xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com" viewBox="0 0 2500 500" version="1.1">
@@ -73,7 +119,8 @@
     </defs>
   </svg>
 
-  <script src="/javascripts/general.js"></script>
+  <script src="/javascripts/loaduser.js"></script>
+  <script src="/javascripts/loadimages.js"></script>
   </body>
 
   </html>
