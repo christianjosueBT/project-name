@@ -149,11 +149,11 @@ footer {
 
 /* Define the main Navigation block */
 .nav {
-  height: 2.5em;
+  height: 2.5rem;
   width: 100%;
   line-height: 1.6;
   background-color: var(--secondary-color);
-  margin-bottom: 2em;
+  margin-bottom: 2rem;
 }
 /* Remove bullets, margin and padding */
 .nav ul {
@@ -391,6 +391,68 @@ footer {
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6));
   z-index: 10;
 }
+/* V2 */
+.card--v2.card {
+  overflow: hidden;
+  border-radius: 4em 4em 4em 4em;
+}
+/* Add rounded corners */
+.card--v2 .card__image img {
+  border-radius: 4em 4em 4em 4em;
+}
+.card--v2 .card__image a {
+  border-radius: 4em 4em 4em 4em;
+}
+.card--v2 .card__image {
+  border-radius: 4em 4em 4em 4em;
+}
+.card__image__top {
+  display: grid;
+  place-items: center;
+  position: absolute;
+  top: -4rem;
+  left: 0;
+  border-radius: 200rem 200em 0 0;
+  width: 16rem;
+  height: 4rem;
+  -webkit-transition: transform 0.5s, background-color 1.5s 0.5s;
+  transition: transform 0.5s, background-color 1.5s 0.5s;
+}
+.card__image__top a {
+  color: #fff;
+  font-size: 0.75em;
+}
+.card__image__bottom {
+  display: grid;
+  place-items: center;
+  position: absolute;
+  bottom: -4em;
+  left: 0;
+  border-radius: 0 0 200em 200em;
+  width: 16rem;
+  height: 4rem;
+  color: #fff;
+  -webkit-transition: transform 0.5s, background-color 1.5s 0.5s;
+  transition: transform 0.5s, background-color 1.5s 0.5s;
+}
+.card__image__bottom p {
+  padding-left: 2rem;
+  font-size: 0.75em;
+}
+/* override shadow effect */
+.card--v2.card:hover {
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+}
+.card--v2.card:hover .card__image__top {
+  opacity: 1;
+  transform: translateY(4em);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.card--v2.card:hover .card__image__bottom {
+  opacity: 1;
+  transform: translateY(-4em);
+  background-color: rgba(0, 0, 0, 0.4);
+}
 
 /**********************************  CONTAINER  **********************************/
 .container {
@@ -487,6 +549,12 @@ footer {
   align-items: center;
 }
 .carousel__image {
+  display: none;
+}
+.carousel__top {
+  display: none;
+}
+.carousel__bottom {
   display: none;
 }
 
