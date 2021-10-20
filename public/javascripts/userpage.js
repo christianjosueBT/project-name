@@ -3,15 +3,12 @@ const images = document.querySelectorAll('.carousel__image');
 
 // calculates ideal image sizes then loads them in
 function loadImages(images) {
-  colWidth =
-    parseInt(
-      window.getComputedStyle(document.body).getPropertyValue('font-size')
-    ) * 16;
+  const colWidth = document.querySelector('.reviews').offsetWidth;
+  const colHeight = document.querySelector('.reviews').offsetHeight;
   const pixelRatio = window.devicePixelRatio || 1.0;
-
-  let str = `https://res.cloudinary.com/christianjosuebt/image/upload/q_auto,f_auto,fl_lossy,w_${Math.round(
+  let str = `https://res.cloudinary.com/christianjosuebt/image/upload/q_auto,f_auto,fl_lossy,c_fill,w_${Math.round(
     colWidth * pixelRatio
-  )}/coffeeShops`;
+  )},h_${Math.round(colHeight * pixelRatio)}/coffeeShops`;
   for (let i = 0; i < images.length; i++) {
     images[i].src = `${str}/${images[i].dataset.src}`;
   }
@@ -80,6 +77,7 @@ function carousel() {
     const images = carousels[i].querySelectorAll('.carousel__image');
     const top = carousels[i].querySelectorAll('.carousel__top');
     const bottom = carousels[i].querySelectorAll('.carousel__bottom');
+    console.log('idk');
     if (images.length > 1) {
       changePicture(carousels[i], images, top, bottom);
       const svgs = carousels[i].querySelectorAll('.button--svg');
@@ -90,12 +88,12 @@ function carousel() {
 }
 // adds event listeneres to the left and right buttons on images so the user can click on them and
 // change the picture being displayed
-function changePicture(carousel, images, top, bottom) {
-  const rightButton = carousel.querySelector('.button--right');
+function changePicture(c, images, top, bottom) {
+  const rightButton = c.querySelector('.button--right');
   rightButton.addEventListener('click', function () {
     changeIndexRight(images, top, bottom);
   });
-  const leftButton = carousel.querySelector('.button--left');
+  const leftButton = c.querySelector('.button--left');
   leftButton.addEventListener('click', function () {
     changeIndexLeft(images, top, bottom);
   });
@@ -106,6 +104,7 @@ function changePicture(carousel, images, top, bottom) {
 // should be
 document.addEventListener('readystatechange', event => {
   if (document.readyState === 'complete') {
+    console.log('READY');
     carousel();
   }
 });

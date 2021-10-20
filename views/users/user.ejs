@@ -1,65 +1,70 @@
 <%- include('../partials/header', {title: 'User Page', stylesheet: "/stylesheets/user.css"}) %>
 <%- include('../partials/navbar', {nav: 'nav'}) %>
 
-<div class="container--user">
-
-  <div class="card card--user grow-1">
-    <img
-      src="https://res.cloudinary.com/christianjosuebt/image/upload/coffeeShops/<%=userProfile.profilePicture.filename%>">
-    </img>
-    <div class="card__image">
-
+<div class="profileContainer">
+  <div class="profile">
+    <div class="userPicture">
+      <img
+        src="https://res.cloudinary.com/christianjosuebt/image/upload/coffeeShops/<%=userProfile.profilePicture.filename%>">
+      </img>
     </div>
-    <div class="card__body">
-      <h1><%=userProfile.username%></h1>
-      <h1><%=userProfile.email%></h1>
-    </div>
+    <p class="username">a</p>
+    <p class="email">lorem.ipsum@gmail.com</p>
+    <p class="posted stories">
+      <a href="#">store1</a>
+      <br>
+      <a href="#">store2</a>
+    </p>
+    <button class="profileEdit" type="button">Edit</button>
   </div>
-
-  <div class="card card--v2 card--user card--large grow-2">
-    <div class="card__image carousel">
+  <div class="bio">
+    <p>I like coffee and morning walks ☕🚶‍♂️<br>Check out my stores!</p>
+    <button type="button" class="bioEdit">Edit</button>
+  </div>
+  <div class="reviews carousel">
+    <% for(let i = 0; i < userProfile.reviews.length; i++) { %>
+    <% if(i === 0) { %>
+    <a href="/coffeeShops/<%=userProfile.reviews[i].coffeeshop._id%>">
+      <img class="active carousel__image" data-src="<%=userProfile.reviews[i].coffeeshop.images[0].filename%>"
+        alt="...">
+    </a>
+    <% } else { %>
+    <a href="/coffeeShops/<%=userProfile.reviews[i].coffeeshop._id%>">
+      <img class="carousel__image" data-src="<%=userProfile.reviews[i].coffeeshop.images[0].filename%>" alt="...">
+    </a>
+    <% }} %>
+    <div class="card__image__top">
       <% for(let i = 0; i < userProfile.reviews.length; i++) { %>
       <% if(i === 0) { %>
-      <a href="/coffeeShops/<%=userProfile.reviews[i].coffeeshop._id%>">
-        <img class="active carousel__image" data-src="<%=userProfile.reviews[i].coffeeshop.images[0].filename%>"
-          alt="...">
-      </a>
+      <h3 class="carousel__top active"><a
+          href="/coffeeShops/<%=userProfile.reviews[i].coffeeshop._id%>"><%=userProfile.reviews[i].coffeeshop.name.split(/\s+/).slice(0,4).join(' ')%></a>
+      </h3>
       <% } else { %>
-      <a href="/coffeeShops/<%=userProfile.reviews[i].coffeeshop._id%>">
-        <img class="carousel__image" data-src="<%=userProfile.reviews[i].coffeeshop.images[0].filename%>" alt="...">
-      </a>
+      <h3 class="carousel__top"><a
+          href="/coffeeShops/<%=userProfile.reviews[i].coffeeshop._id%>"><%=userProfile.reviews[i].coffeeshop.name.split(/\s+/).slice(0,4).join(' ')%></a>
+      </h3>
       <% }} %>
-      <div class="card__image__top">
-        <% for(let i = 0; i < userProfile.reviews.length; i++) { %>
-        <% if(i === 0) { %>
-        <h3 class="carousel__top active"><a
-            href="/coffeeShops/<%=userProfile.reviews[i].coffeeshop._id%>"><%=userProfile.reviews[i].coffeeshop.name.split(/\s+/).slice(0,4).join(' ')%></a>
-        </h3>
-        <% } else { %>
-        <h3 class="carousel__top"><a
-            href="/coffeeShops/<%=userProfile.reviews[i].coffeeshop._id%>"><%=userProfile.reviews[i].coffeeshop.name.split(/\s+/).slice(0,4).join(' ')%></a>
-        </h3>
-        <% }} %>
-      </div>
-      <div class="card__image__bottom">
-        <% for(let i = 0; i < userProfile.reviews.length; i++) { %>
-        <% if(i === 0) { %>
-        <p class="carousel__bottom active"><%=userProfile.reviews[i].body.slice(0,50)%>...</p>
-        <% } else { %>
-        <p class="carousel__bottom"><%=userProfile.reviews[i].body.slice(0,50)%></p>
-        <% }} %>
-      </div>
-      <svg class="button--svg button--left hide">
-        <use href="#svg--left"></use>
-      </svg>
-      <svg class="button--svg button--right hide">
-        <use href="#svg--right"></use>
-      </svg>
     </div>
+    <div class="card__image__bottom">
+      <% for(let i = 0; i < userProfile.reviews.length; i++) { %>
+      <% if(i === 0) { %>
+      <p class="carousel__bottom active"><%=userProfile.reviews[i].body.slice(0,50)%>...</p>
+      <% } else { %>
+      <p class="carousel__bottom"><%=userProfile.reviews[i].body.slice(0,50)%></p>
+      <% }} %>
+    </div>
+    <svg class="button--svg button--left hide">
+      <use href="#svg--left"></use>
+    </svg>
+    <svg class="button--svg button--right hide">
+      <use href="#svg--right"></use>
+    </svg>
   </div>
 </div>
 
-<!-- SVG Definition-->
+
+<!-- SVG Definition -->
+
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com" viewBox="0 0 2500 500" version="1.1">
   <defs>
     <pattern id="pattern1" x="0" y="0" width="500" height="500" patternUnits="userSpaceOnUse">
@@ -90,7 +95,7 @@
   </defs>
 </svg>
 <!-- image buttons -->
-<!-- <circle cx="20" cy="20" r="20" fill="#aaa5" stroke="none"/> -->
+<circle cx="20" cy="20" r="20" fill="#aaa5" stroke="none" />
 <svg xmlns="http://www.w3.org/2000/svg">
   <symbol id="svg--left" viewBox="0 0 40 40">
     <path d="M 25,10 L 15,20 L 25,30" fill="none" stroke-width="2px"></path>
