@@ -15,9 +15,13 @@ function loadUser() {
 function loadUserData(user) {
   if (user) {
     user = JSON.parse(user);
-    const userVar = document.querySelector('#user');
-    const nav = document.querySelector('.nav__user');
+    const nav = document.querySelector('.nav__user__div');
+    const userVar = nav.querySelector('.user');
+    const profile = nav.querySelector('.dropdown--profile');
+    const form = nav.querySelector('.dropdown--logout');
+    const logout = nav.querySelector('.submit');
 
+    nav.classList.remove('hide');
     userVar.classList.remove('hide');
     userVar.innerHTML = user.username;
 
@@ -29,10 +33,19 @@ function loadUserData(user) {
     picture.className = 'picture order-1';
     picture.appendChild(img);
     nav.appendChild(picture);
-    nav.href = `/user/${user._id}`;
+    profile.href = `/user/${user._id}`;
+    logout.addEventListener('click', () => form.submit());
+    logout.addEventListener('keypress', function (e) {
+      const key = e.keyCode || e.which;
+      if (key === 13) {
+        form.submit();
+      }
+    });
   } else {
-    const login = document.querySelector('#login');
-    const nav = document.querySelector('.nav__user');
+    const nav = document.querySelector('.nav__user__a');
+    const login = nav.querySelector('.login');
+
+    nav.classList.remove('hide');
     login.classList.remove('hide');
 
     const img = new Image();

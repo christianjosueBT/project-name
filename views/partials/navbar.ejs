@@ -1,14 +1,22 @@
 <nav class="<%- nav %>">
-    <ul>
-        <li><a class="nav__el" href="/"><h3 class="inline navFont">Find Me Food Now!</h3></a></li>
-        <li><a class="nav__el" href="/coffeeShops">Home</a></li>
-        <li class="justify-end margin-right">
-            <a class="nav__user">
-                <div id="login" class="hide">Login</div>
-                <form id="user" class="hide" method="POST">
-                    <button class="button button--form">Logout</button>
-                </form>
-            </a>
-        </li>
-    </ul>
+  <ul>
+    <li><a class="nav__el" href="/">
+        <h3 class="inline navFont">Find Me Food Now!</h3>
+      </a></li>
+    <li><a class="nav__el" href="/coffeeShops">Home</a></li>
+    <li class="justify-end margin-right">
+      <a class="nav__user nav__user__a hide">
+        <div class="login hide">Login</div>
+      </a>
+      <div class="nav__user nav__user__div hide">
+        <div class="user hide">User</div>
+        <div class="dropdown--content">
+          <a class="dropdown--profile">Profile</a>
+          <form class="dropdown--logout" action="/logout" method="POST">
+            <div class="submit">Logout</div>
+          </form>
+        </div>
+      </div>
+    </li>
+  </ul>
 </nav>
