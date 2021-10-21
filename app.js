@@ -1,5 +1,5 @@
 // "C:\Program Files\MongoDB\Server\4.4\bin\mongod.exe" --dbpath="c:\data\db"
-// 'C:\Program Files\MongoDB\Server\4.4\bin\mongo.exe';
+// "C:\Program Files\MongoDB\Server\4.4\bin\mongo.exe"
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
@@ -16,7 +16,7 @@ const session = require('express-session');
 const multer = require('multer');
 const { storage } = require('./cloudinary');
 const upload = multer({ storage });
-const MongoDBStore = require('connect-mongo')(session);
+const MongoDBStore = require('connect-mongo');
 const dbUrl = 'mongodb://localhost:27017/practice';
 let allCoffeeShops = [];
 
@@ -32,45 +32,37 @@ mongoose
   })
   .catch(error => console.log(error));
 
-// auth0 configuration settings
-// const config = {
-//     authRequired: false,
-//     auth0Logout: true,
-//     secret: 'a long, randomly-generated string stored in env',
-//     baseURL: 'http://localhost:3000',
-//     clientID: 'TtvBgpzqg7dqe9ZiyphfM8jLXzEhqMLa',
-//     issuerBaseURL: 'https://dev-vz53evpk.us.auth0.com'
-// };
-
+const secret = process.env.SECRET || 'thiscouldbebetter';
 const app = express();
-
-const store = new MongoDBStore({
-  url: dbUrl,
-  secret: 'thiscouldbebetter',
+const options = {
+  mongoUrl: dbUrl,
+  mongoOptions: {
+    useUnifiedTopology: true,
+  },
+  crypto: {
+    secret,
+  },
   touchAfter: 24 * 60 * 60,
-});
-store.on('error', function (e) {
-  console.log('SESSION STORE ERROR', e);
-});
+};
 const sessionConfig = {
-  store,
+  store: MongoDBStore.create(options),
   name: 'session',
-  secret: 'thiscouldbebetter',
+  secret,
   resave: false,
   saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+    // secure: true,
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  },
 };
 
 // app.set('view engine', 'ejs');
 app.use(methodOverride('_method'));
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: true }));
-app.use(
-  session({
-    resave: false,
-    saveUninitialized: false,
-    secret: 'thiscouldbebetter',
-  })
-);
+app.use(session(sessionConfig));
 
 const findCoffeeShops = async () => {
   allCoffeeShops = await CoffeeShop.find({});
@@ -264,6 +256,7 @@ app.post('/postman', async (req, res) => {
   res.send(body);
 });
 
-app.listen(2000, () => {
-  console.log('Serving on port 3000');
+const port = process.env.PORT || 2000;
+app.listen(port, () => {
+  console.log(`Serving on port ${port}`);
 });
