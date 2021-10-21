@@ -16,9 +16,13 @@ const session = require('express-session');
 const multer = require('multer');
 const { storage } = require('./cloudinary');
 const upload = multer({ storage });
+const dbUrl = process.env.DB_URL;
 let allCoffeeShops = [];
-// const { auth } = require('express-openid-connect');
 
+// mongo atlas
+// mongodb+srv://christianbernal:<password>@cluster0.5x1p3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+// mongo local
+// 'mongodb://localhost:27017/practice'
 // connecting to mongoose
 mongoose
   .connect('mongodb://localhost:27017/practice', {
@@ -84,44 +88,6 @@ app.get('/', async (req, res) => {
   const coffeeShops = await CoffeeShop.find({}).limit(2);
   res.render('home.ejs', { coffeeShops });
 });
-
-// index page of coffeeshops (cached)
-// app.get('/coffeeShops', cache(300), async (req, res) => {
-//   // save all coffeeshops to a variable so they are quickly available (cached)
-//   let coffeeShops = [...res.locals.allCoffeeShops];
-
-//   // if there is a query this will run
-//   if (Object.keys(req.query).length !== 0) {
-//     // if there is a search query, filter coffeeshops by that search
-//     if (req.query.search) {
-//       search = req.query.search;
-//       coffeeShops = coffeeShops.filter(r =>
-//         r.name.toLowerCase().includes(search.toLowerCase())
-//       );
-//     }
-//     // if there ISN'T a count query and there are still more than 10 coffeeshops after filtering
-//     // reduce the size of coffeeshops to 10
-//     if (!req.query.count && coffeeShops.length > 10) {
-//       coffeeShops.length = 10;
-//     }
-//     // if there IS a count query and there are more than 10 coffeeshops in our variable
-//     // filter the relevant coffeeshops based on the value of count
-//     if (req.query.count && coffeeShops.length > 10) {
-//       const count = req.query.count * 10;
-//       coffeeShops = coffeeShops.slice(count, count + 10);
-//       res.send(coffeeShops);
-//       return;
-//     }
-//     res.render('coffeeShops/index.ejs', { coffeeShops });
-//     return;
-//   }
-//   // if there is no query in the url, only show the first 10 coffeeshops
-//   else {
-//     coffeeShops.length = 10;
-//     res.render('coffeeShops/index.ejs', { coffeeShops });
-//     return;
-//   }
-// });
 
 // Newer version of coffeeshops page
 app.get('/coffeeShops', cache(300), async (req, res) => {
