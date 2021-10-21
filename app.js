@@ -16,16 +16,15 @@ const session = require('express-session');
 const multer = require('multer');
 const { storage } = require('./cloudinary');
 const upload = multer({ storage });
-const dbUrl = process.env.DB_URL;
+const MongoDBStore = require('connect-mongo')(session);
+const dbUrl = 'mongodb://localhost:27017/practice';
 let allCoffeeShops = [];
 
-// mongo atlas
-// mongodb+srv://christianbernal:<password>@cluster0.5x1p3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 // mongo local
 // 'mongodb://localhost:27017/practice'
 // connecting to mongoose
 mongoose
-  .connect('mongodb://localhost:27017/practice', {
+  .connect(dbUrl, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
@@ -44,6 +43,22 @@ mongoose
 // };
 
 const app = express();
+
+const store = new MongoDBStore({
+  url: dbUrl,
+  secret: 'thiscouldbebetter',
+  touchAfter: 24 * 60 * 60,
+});
+store.on('error', function (e) {
+  console.log('SESSION STORE ERROR', e);
+});
+const sessionConfig = {
+  store,
+  name: 'session',
+  secret: 'thiscouldbebetter',
+  resave: false,
+  saveUninitialized: true,
+};
 
 // app.set('view engine', 'ejs');
 app.use(methodOverride('_method'));
