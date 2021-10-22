@@ -1,6 +1,22 @@
 /* .nav {
   margin: 0;
 } */
+:root {
+  box-sizing: border-box;
+  font-size: calc(1vw + 0.6em);
+  font-family: 'Montserrat', sans-serif;
+  --main-color: #557d79ff;
+  --main-200: #7bc9c1;
+  --secondary-color: #dae0e6;
+  --accent-primary: #999;
+  --accent-secondary: #2d2e2f;
+  --light-text: #fff;
+  --grey-text: #bfbfbf;
+  --dark-text: #000;
+  --danger: #e75b68;
+  --rating: #ffea37;
+  font-weight: 300;
+}
 
 .profileContainer {
   margin: 10px;
@@ -100,7 +116,7 @@
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-.card__image__top {
+/* .card__image__top {
   display: grid;
   place-items: center;
   position: absolute;
@@ -115,26 +131,53 @@
 .card__image__top a {
   color: #fff;
   font-size: 0.75em;
-}
+} */
 
-.card__image__bottom {
+/* /////////////////////////////////////////// */
+
+.card__image__top2 {
   display: grid;
   place-items: center;
   position: absolute;
-  bottom: -4em;
+  top: -4rem;
   left: 0;
-  border-radius: 0 0 200em 200em;
-  width: 100%;
-  height: 10%;
-  color: #fff;
+  border-radius: 200rem 200em 0 0;
+  width: 16rem;
+  height: 4rem;
   -webkit-transition: transform 0.5s, background-color 1.5s 0.5s;
   transition: transform 0.5s, background-color 1.5s 0.5s;
 }
-.card__image__bottom p {
-  padding-left: 2rem;
+.card__image__top2 a {
+  color: #fff;
   font-size: 0.75em;
 }
-
+.card__image__bottom2 {
+  display: grid;
+  place-items: center;
+  position: absolute;
+  bottom: 1em;
+  left: 0;
+  border-radius: 0;
+  width: 100%;
+  height: 10%;
+  color: #fff;
+}
+.card__image__bottom2 * {
+  padding-left: 2rem;
+  font-size: 1em;
+  color: var(--light-text);
+}
+.card--v2.card:hover .card__image__top2 {
+  transform: none;
+  background-color: none;
+}
+.card--v2.card:hover .card__image__bottom2 {
+  transform: none;
+  background-color: none;
+}
+.stars--parent {
+  display: none;
+}
 /* .container--user {
   position: static;
   display: flex;
