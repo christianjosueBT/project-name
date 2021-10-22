@@ -16,51 +16,64 @@ function loadImages(images) {
 // checks if element passed to it is "active" or not. Returns a boolean value
 const active = element => element.classList.contains('active');
 // changes which image is "active" to the left
-function changeIndexLeft(images, top, bottom) {
+function changeIndexLeft(images, texts, top, bottom, stars) {
   let index = 0;
-  for (let i = 0; i < images.length; i++) {
-    if (active(images[i])) index = i;
+  let items = [];
+  if (images.length !== 0) items.push(images);
+  if (texts.length !== 0) items.push(texts);
+  if (top.length !== 0) items.push(top);
+  if (bottom.length !== 0) items.push(bottom);
+  if (stars.length !== 0) items.push(stars);
+
+  for (let i = 0; i < items[0].length; i++) {
+    if (active(items[0][i])) {
+      index = i;
+      break;
+    }
   }
-  for (let i = 0; i < images.length; i++) {
+  for (let i = 0; i < items[0].length; i++) {
     if (index === 0 && i === index) {
-      images[i].classList.toggle('active');
-      top[i].classList.toggle('active');
-      bottom[i].classList.toggle('active');
-      images[images.length - 1].classList.toggle('active');
-      top[images.length - 1].classList.toggle('active');
-      bottom[images.length - 1].classList.toggle('active');
+      for (let j = 0; j < items.length; j++) {
+        items[j][i].classList.toggle('active');
+        items[j][items[0].length - 1].classList.toggle('active');
+      }
     } else if (i === index && index !== 0) {
-      images[i].classList.toggle('active');
-      top[i].classList.toggle('active');
-      bottom[i].classList.toggle('active');
-      images[i - 1].classList.toggle('active');
-      top[i - 1].classList.toggle('active');
-      bottom[i - 1].classList.toggle('active');
+      for (let j = 0; j < items.length; j++) {
+        items[j][i].classList.toggle('active');
+        items[j][i - 1].classList.toggle('active');
+      }
     }
   }
 }
 // changes which image is "active" to the right
-function changeIndexRight(images, top, bottom) {
+function changeIndexRight(images, texts, top, bottom, stars) {
   // coffeeShops.forEach((img, i) => img.style.display = obj.num === i ? 'block' : 'none');
+
   let index = 0;
-  for (let i = 0; i < images.length; i++) {
-    if (active(images[i])) index = i;
+  let items = [];
+  if (images.length !== 0) items.push(images);
+  if (texts.length !== 0) items.push(texts);
+  if (top.length !== 0) items.push(top);
+  if (bottom.length !== 0) items.push(bottom);
+  if (stars.length !== 0) items.push(stars);
+
+  for (let i = 0; i < items[0].length; i++) {
+    if (active(items[0][i])) {
+      index = i;
+      break;
+    }
   }
-  for (let i = 0; i < images.length; i++) {
-    if (index === images.length - 1 && i === index) {
-      images[i].classList.toggle('active');
-      images[0].classList.toggle('active');
-      top[i].classList.toggle('active');
-      top[0].classList.toggle('active');
-      bottom[i].classList.toggle('active');
-      bottom[0].classList.toggle('active');
-    } else if (i === index && index !== images.length - 1) {
-      images[i].classList.toggle('active');
-      images[i + 1].classList.toggle('active');
-      top[i].classList.toggle('active');
-      top[i + 1].classList.toggle('active');
-      bottom[i].classList.toggle('active');
-      bottom[i + 1].classList.toggle('active');
+  for (let i = 0; i < items[0].length; i++) {
+    if (index === items[0].length - 1 && i === index) {
+      for (let j = 0; j < items.length; j++) {
+        items[j][i].classList.toggle('active');
+        items[j][0].classList.toggle('active');
+      }
+    } else if (i === index && index !== items[0].length - 1) {
+      for (let j = 0; j < items.length; j++) {
+        items[j][i].classList.toggle('active');
+        items[j][i + 1].classList.toggle('active');
+      }
     }
   }
 }
@@ -75,28 +88,103 @@ function carousel() {
   const carousels = document.querySelectorAll('.carousel');
   for (let i = 0; i < carousels.length; i++) {
     const images = carousels[i].querySelectorAll('.carousel__image');
+    const texts = carousels[i].querySelectorAll('.carousel__text');
     const top = carousels[i].querySelectorAll('.carousel__top');
     const bottom = carousels[i].querySelectorAll('.carousel__bottom');
-    console.log('idk');
-    if (images.length > 1) {
-      changePicture(carousels[i], images, top, bottom);
+    const stars = carousels[i].querySelectorAll('.stars--parent');
+    if (
+      images.length > 1 ||
+      texts.length > 1 ||
+      top.length > 1 ||
+      bottom.length > 1 ||
+      images.length > 1
+    ) {
+      changePicture(carousels[i], images, texts, top, bottom, stars);
       const svgs = carousels[i].querySelectorAll('.button--svg');
-      display(svgs);
+      if (svgs.length !== 0) display(svgs);
+    }
+  }
+
+  const linked = document.querySelectorAll('.carousel--linked');
+  let images = [];
+  let texts = [];
+  let top = [];
+  let bottom = [];
+  let stars = [];
+  if (linked.length > 1) {
+    for (let i = 0; i < linked.length; i++) {
+      images.push.apply(
+        images,
+        Array.from(linked[i].querySelectorAll('.carousel__image'))
+      );
+      texts.push.apply(
+        texts,
+        Array.from(linked[i].querySelectorAll('.carousel__text'))
+      );
+      top.push.apply(
+        top,
+        Array.from(linked[i].querySelectorAll('.carousel__top'))
+      );
+      bottom.push.apply(
+        bottom,
+        Array.from(linked[i].querySelectorAll('.carousel__bottom'))
+      );
+      stars.push.apply(
+        stars,
+        Array.from(linked[i].querySelectorAll('.stars--parent'))
+      );
+    }
+  }
+  if (
+    images.length > 1 ||
+    texts.length > 1 ||
+    top.length > 1 ||
+    bottom.length > 1 ||
+    images.length > 1
+  ) {
+    changePictures(linked, images, texts, top, bottom, stars);
+    for (let i = 0; i < linked.length; i++) {
+      const svgs = linked[i].querySelectorAll('.button--svg');
+      if (svgs.length !== 0) display(svgs);
     }
   }
   return;
 }
 // adds event listeneres to the left and right buttons on images so the user can click on them and
 // change the picture being displayed
-function changePicture(c, images, top, bottom) {
+function changePicture(c, images, texts, top, bottom, stars) {
   const rightButton = c.querySelector('.button--right');
-  rightButton.addEventListener('click', function () {
-    changeIndexRight(images, top, bottom);
-  });
+  if (rightButton) {
+    rightButton.addEventListener('click', function () {
+      changeIndexRight(images, texts, top, bottom, stars);
+    });
+  }
   const leftButton = c.querySelector('.button--left');
-  leftButton.addEventListener('click', function () {
-    changeIndexLeft(images, top, bottom);
-  });
+  if (leftButton) {
+    leftButton.addEventListener('click', function () {
+      changeIndexLeft(images, texts, top, bottom, stars);
+    });
+  }
+  return;
+}
+
+// adds event listeneres to the left and right buttons on images so the user can click on them and
+// change the picture being displayed
+function changePictures(linked, images, texts, top, bottom, stars) {
+  for (let i = 0; i < linked.length; i++) {
+    const rightButton = linked[i].querySelector('.button--right');
+    if (rightButton) {
+      rightButton.addEventListener('click', function () {
+        changeIndexRight(images, texts, top, bottom, stars);
+      });
+    }
+    const leftButton = linked[i].querySelector('.button--left');
+    if (leftButton) {
+      leftButton.addEventListener('click', function () {
+        changeIndexLeft(images, texts, top, bottom, stars);
+      });
+    }
+  }
   return;
 }
 
@@ -104,7 +192,6 @@ function changePicture(c, images, top, bottom) {
 // should be
 document.addEventListener('readystatechange', event => {
   if (document.readyState === 'complete') {
-    console.log('READY');
     carousel();
   }
 });
