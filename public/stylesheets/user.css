@@ -162,8 +162,8 @@
   height: 10%;
   color: #fff;
 }
-.card__image__bottom2 * {
-  padding-left: 2rem;
+.card__image__bottom2 > * {
+  /* padding: 1em; */
   font-size: 1em;
   color: var(--light-text);
 }

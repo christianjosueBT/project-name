@@ -31,30 +31,32 @@
     </a>
     <% }} %>
     <div class="card__image__bottom2">
-      <% for(let i = 0; i < userProfile.reviews.length; i++) { %>
-      <% if(i === 0) { %>
-      <h3 class="carousel__text active"><a
-          href="/coffeeShops/<%=userProfile.reviews[i].coffeeshop._id%>"><%=userProfile.reviews[i].coffeeshop.name.split(/\s+/).slice(0,4).join(' ')%></a>
-      </h3>
-      <svg class="stars--parent active" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com"
-        viewBox="0 0 2500 500" version="1.1">
-        <rect class="stars stars--outer" x="0" y="0" width="2500" height="500" fill="url(#pattern2)"
-          style="mask: url(#mask1)" />
-        <rect class="stars stars--inner" x="0" y="0" width="<%=userProfile.reviews[i].starRating%>" height="500"
-          style="mask: url(#mask5)" />
-      </svg>
-      <% } else { %>
-      <h3 class="carousel__text"><a
-          href="/coffeeShops/<%=userProfile.reviews[i].coffeeshop._id%>"><%=userProfile.reviews[i].coffeeshop.name.split(/\s+/).slice(0,4).join(' ')%></a>
-      </h3>
-      <svg class="stars--parent" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com"
-        viewBox="0 0 2500 500" version="1.1">
-        <rect class="stars stars--outer" x="0" y="0" width="2500" height="500" fill="url(#pattern2)"
-          style="mask: url(#mask1)" />
-        <rect class="stars stars--inner" x="0" y="0" width="<%=userProfile.reviews[i].starRating%>" height="500"
-          style="mask: url(#mask5)" />
-      </svg>
-      <% }} %>
+      <div class="card card--item">
+        <% for(let i = 0; i < userProfile.reviews.length; i++) { %>
+        <% if(i === 0) { %>
+        <h3 class="carousel__text active"><a
+            href="/coffeeShops/<%=userProfile.reviews[i].coffeeshop._id%>"><%=userProfile.reviews[i].coffeeshop.name.split(/\s+/).slice(0,4).join(' ')%></a>
+        </h3>
+        <svg class="stars--parent active" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com"
+          viewBox="0 0 2500 500" version="1.1">
+          <rect class="stars stars--outer" x="0" y="0" width="2500" height="500" fill="url(#pattern2)"
+            style="mask: url(#mask1)" />
+          <rect class="stars stars--inner" x="0" y="0" width="<%=userProfile.reviews[i].starRating%>" height="500"
+            style="mask: url(#mask5)" />
+        </svg>
+        <% } else { %>
+        <h3 class="carousel__text"><a
+            href="/coffeeShops/<%=userProfile.reviews[i].coffeeshop._id%>"><%=userProfile.reviews[i].coffeeshop.name.split(/\s+/).slice(0,4).join(' ')%></a>
+        </h3>
+        <svg class="stars--parent" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com"
+          viewBox="0 0 2500 500" version="1.1">
+          <rect class="stars stars--outer" x="0" y="0" width="2500" height="500" fill="url(#pattern2)"
+            style="mask: url(#mask1)" />
+          <rect class="stars stars--inner" x="0" y="0" width="<%=userProfile.reviews[i].starRating%>" height="500"
+            style="mask: url(#mask5)" />
+        </svg>
+        <% }} %>
+      </div>
     </div>
     <svg class="button--svg button--left hide">
       <use href="#svg--left"></use>
